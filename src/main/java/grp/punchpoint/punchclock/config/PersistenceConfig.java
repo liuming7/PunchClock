@@ -10,6 +10,12 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
 
+/**
+ * @program: grp\punchpoint\punchclock\config\PersistenceConfig.java
+ * @description: PersistenceConfig
+ * @author: Mengnan Wu
+ * @create: 10/21/2023 5:11 PM
+ **/
 @Configuration
 @MapperScan("grp.punchpoint.punchclock.mapper")
 public class PersistenceConfig {

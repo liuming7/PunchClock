@@ -9,8 +9,11 @@ import java.util.logging.Logger;
 
 
 /**
- * author Miles
- */
+ * @program: grp\punchpoint\punchclock\PunchClockApplication.java
+ * @description: PunchClockApplication
+ * @author: Mengnan Wu
+ * @create: 10/21/2023 5:09 PM
+ **/
 @SpringBootApplication
 @Log4j2
 public class PunchClockApplication {
@@ -30,9 +33,7 @@ public class PunchClockApplication {
 
     public Logger logger = Logger.getLogger("PunchClockApplication.class");
 
-    /**
-     * @param args
-     */
+
     public static void main(String[] args) {
         SpringApplication.run(PunchClockApplication.class, args);
     }

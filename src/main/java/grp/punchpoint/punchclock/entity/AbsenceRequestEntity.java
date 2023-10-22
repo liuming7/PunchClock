@@ -8,6 +8,12 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 
+/**
+ * @program: grp\punchpoint\punchclock\entity\AbsenceRequestEntity.java
+ * @description: AbsenceRequestEntity
+ * @author: Mengnan Wu
+ * @create: 10/21/2023 5:10 PM
+ **/
 @Getter
 @Setter
 @ToString
