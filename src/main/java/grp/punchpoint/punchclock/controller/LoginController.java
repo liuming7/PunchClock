@@ -677,15 +677,23 @@
 
 package grp.punchpoint.punchclock.controller;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSONPObject;
+import grp.punchpoint.punchclock.PunchClockApplication;
+import grp.punchpoint.punchclock.bo.LoginInfoBo;
 import grp.punchpoint.punchclock.entity.EmployeeEntity;
 import grp.punchpoint.punchclock.mapper.EmployeeMapper;
 import grp.punchpoint.punchclock.service.LoginService;
 import grp.punchpoint.punchclock.service.MeService;
+import grp.punchpoint.punchclock.util.ReturnResult;
+import org.apache.ibatis.annotations.ResultType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * {@code @program:} PunchClock
@@ -709,14 +717,55 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public void login(){
-
+    public String login(@RequestBody String loginInfo){
+        LoginInfoBo loginInfoBo = new LoginInfoBo();
+        Boolean result = false;
+        try {
+            JSONObject jsonObject = JSON.parseObject(loginInfo);
+            if (jsonObject.containsKey("firstName")) {
+                loginInfoBo.setFirstName(jsonObject.getString("firstName"));
+            } else {
+                return ReturnResult.error("there is no first name inputted");
+            }
+            if (jsonObject.containsKey("password")){
+                loginInfoBo.setPassword(jsonObject.getString("password"));
+            }else{
+                return ReturnResult.error("there is no password inputted");
+            }
+            result = loginService.login(loginInfoBo);
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
+        return result ? ReturnResult.fine() : ReturnResult.error("login failed");
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public void register(){
-
+    public String register(@RequestBody String registerInfo){
+        LoginInfoBo loginInfoBo = new LoginInfoBo();
+        Boolean result = false;
+        try {
+            JSONObject jsonObject = JSON.parseObject(registerInfo);
+            if (jsonObject.containsKey("firstName")) {
+                loginInfoBo.setFirstName(jsonObject.getString("firstName"));
+            } else {
+                return ReturnResult.error("there is no first name inputted");
+            }
+            if (jsonObject.containsKey("password")){
+                loginInfoBo.setPassword(jsonObject.getString("password"));
+            }else{
+                return ReturnResult.error("there is no password inputted");
+            }
+            if(jsonObject.containsKey("email")){
+                loginInfoBo.setEmail(jsonObject.getString("email"));
+            }else{
+                return ReturnResult.error("thers is no email");
+            }
+            result = loginService.register(loginInfoBo);
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
+        return result ? ReturnResult.fine() : ReturnResult.error("register failed");
     }
 
     @RequestMapping(value = "/isEmailOccupied", method = RequestMethod.POST)

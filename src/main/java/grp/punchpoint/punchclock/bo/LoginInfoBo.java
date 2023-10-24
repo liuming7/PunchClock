@@ -675,46 +675,32 @@
  * <https://www.gnu.org/licenses/why-not-lgpl.html>.
  */
 
-package grp.punchpoint.punchclock.service;
+package grp.punchpoint.punchclock.bo;
 
-import grp.punchpoint.punchclock.bo.LoginInfoBo;
-import grp.punchpoint.punchclock.entity.PasswordEntity;
-import grp.punchpoint.punchclock.mapper.EmployeeMapper;
-import grp.punchpoint.punchclock.util.ReturnResult;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Date;
-
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * {@code @program:} PunchClock
  * <p>
- * {@code @description:} grp.punchpoint.punchclock.service
+ * {@code @description:} grp.punchpoint.punchclock.bo.LoginInfoBo
  * <p>
  * {@code @author:} Mengnan Wu
  * <p>
- * {@code @create:} 2023-10-22 04:21
+ * {@code @create:} 2023-10-24 01:50
  **/
 
-@Service
-public class LoginService {
+@Getter
+@Setter
+@ToString
+public class LoginInfoBo {
 
-    @Autowired
-    private EmployeeMapper employeeMapper;
+    private Integer employeeId;
 
-    public Boolean login(LoginInfoBo loginInfoBo){
-        return loginInfoBo.getPassword().equals(employeeMapper.getPasswordByFirstName(loginInfoBo.getFirstName()).getPassword());
-    }
+    private String firstName;
 
-    public Boolean register(LoginInfoBo loginInfoBo){
-        Integer newId = Long.valueOf(new Date().getTime()).intValue();
-        loginInfoBo.setEmployeeId(newId);
-        if(employeeMapper.isEmailOccupied(loginInfoBo)>0){
-            return false;
-        }
-        Boolean result = employeeMapper.setNewUser1(loginInfoBo);
-        result &= employeeMapper.setNewUser2(loginInfoBo);
-        return result;
-    }
+    private String password;
+
+    private String email;
 }

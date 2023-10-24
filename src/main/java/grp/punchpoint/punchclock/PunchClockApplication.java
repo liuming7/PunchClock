@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 public class PunchClockApplication {
 
     public PunchClockApplication() {
-        this.logger.info("\n           ___          ___          ___          ___          ___          ___\n" +
+        logger.info("\n           ___          ___          ___          ___          ___          ___\n" +
                 "          /\\__\\        /\\__\\        /\\  \\        /\\  \\        /\\  \\        /\\__\\\n" +
                 "=========/:/  /=======/::L_L_=======\\:\\  \\======/::\\  \\======/::\\  \\======/:/__/_=============\n" +
                 " \\\\     /:/__/       /:/L:\\__\\      /::\\__\\    /::\\:\\__\\    /:/\\:\\__\\    /::\\/\\__\\           \\\\\n" +
@@ -31,7 +31,7 @@ public class PunchClockApplication {
     }
 
 
-    public Logger logger = Logger.getLogger("PunchClockApplication.class");
+    public static Logger logger = Logger.getLogger("PunchClockApplication.class");
 
 
     public static void main(String[] args) {

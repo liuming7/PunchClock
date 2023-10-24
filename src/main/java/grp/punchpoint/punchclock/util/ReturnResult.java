@@ -675,46 +675,44 @@
  * <https://www.gnu.org/licenses/why-not-lgpl.html>.
  */
 
-package grp.punchpoint.punchclock.service;
+package grp.punchpoint.punchclock.util;
 
-import grp.punchpoint.punchclock.bo.LoginInfoBo;
-import grp.punchpoint.punchclock.entity.PasswordEntity;
-import grp.punchpoint.punchclock.mapper.EmployeeMapper;
-import grp.punchpoint.punchclock.util.ReturnResult;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Date;
-
+import com.alibaba.fastjson2.JSONObject;
 
 /**
  * {@code @program:} PunchClock
  * <p>
- * {@code @description:} grp.punchpoint.punchclock.service
+ * {@code @description:} grp.punchpoint.punchclock.util.ReturnType
  * <p>
  * {@code @author:} Mengnan Wu
  * <p>
- * {@code @create:} 2023-10-22 04:21
+ * {@code @create:} 2023-10-24 02:09
  **/
+public class ReturnResult {
 
-@Service
-public class LoginService {
-
-    @Autowired
-    private EmployeeMapper employeeMapper;
-
-    public Boolean login(LoginInfoBo loginInfoBo){
-        return loginInfoBo.getPassword().equals(employeeMapper.getPasswordByFirstName(loginInfoBo.getFirstName()).getPassword());
+    public static String fine(){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",0);
+        return jsonObject.toJSONString();
     }
 
-    public Boolean register(LoginInfoBo loginInfoBo){
-        Integer newId = Long.valueOf(new Date().getTime()).intValue();
-        loginInfoBo.setEmployeeId(newId);
-        if(employeeMapper.isEmailOccupied(loginInfoBo)>0){
-            return false;
-        }
-        Boolean result = employeeMapper.setNewUser1(loginInfoBo);
-        result &= employeeMapper.setNewUser2(loginInfoBo);
-        return result;
+    public static String fine(Object object){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",0);
+        jsonObject.put("data",object);
+        return jsonObject.toJSONString();
+    }
+
+    public static String error(String reason){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",1);
+        jsonObject.put("message",reason);
+        return jsonObject.toJSONString();
+    }
+
+    public static String error(){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",1);
+        return jsonObject.toJSONString();
     }
 }
