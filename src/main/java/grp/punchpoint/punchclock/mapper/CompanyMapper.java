@@ -1,11 +1,9 @@
 package grp.punchpoint.punchclock.mapper;
 
 import grp.punchpoint.punchclock.entity.CompanyEntity;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @program: PunchClock
@@ -18,7 +16,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface CompanyMapper {
 
-    @Select("select * from company where company_id = #{companyId}")
+    @Select("select * from company where company_id = #{companyId} and is_deleted = 0")
     @Results(id = "companyMap", value = {
             @Result(property = "companyId", column = "company_id"),
             @Result(property = "companyName", column = "company_name"),
@@ -33,4 +31,9 @@ public interface CompanyMapper {
             @Result(property = "workEndTimestampException", column = "work_end_timestamp_exception")
     })
     public CompanyEntity getCompanyInfoById(Integer companyId);
+
+    @Transactional(label = "setNewCompany")
+    @Insert("insert into company values (#{companyId},#{companyName},#{workStartTime},#{workEndTime},#{workStartTimeException},#{workEndTimeException}," +
+            "#{isExceptionToday},#{workStartTimestamp},#{workEndTimestamp},#{workStartTimestampException},#{workEndTimestampException},#{isDeleted})")
+    public Boolean setNewCompany(CompanyEntity companyEntity);
 }

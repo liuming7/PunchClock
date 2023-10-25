@@ -39,4 +39,6 @@ public class CompanyEntity {
     private Timestamp workStartTimestampException;
 
     private Timestamp workEndTimestampException;
+
+    private Integer isDeleted;
 }

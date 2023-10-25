@@ -777,7 +777,6 @@ public class LoginController {
     @RequestMapping(value = "/ping", method = RequestMethod.GET)
     @ResponseBody
     public String ping(){
-        EmployeeEntity employeeEntity = meService.get();
-        return employeeEntity.toString();
+        return "yes";
     }
 }

@@ -1,6 +1,8 @@
 package grp.punchpoint.punchclock.mapper;
 
 import grp.punchpoint.punchclock.bo.LoginInfoBo;
+import grp.punchpoint.punchclock.bo.MeInfoBo;
+import grp.punchpoint.punchclock.bo.NewCompanyBo;
 import grp.punchpoint.punchclock.entity.EmployeeEntity;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -16,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Mapper
 public interface EmployeeMapper {
 
-    @Select("select * from employee where employee_id = #{employee_id}")
+    @Select("select * from employee where employee_id = #{id} and employee.is_deleted = 0")
     @Results(id = "employeeMap", value = {
             @Result(property = "employeeId", column = "employee_id"),
             @Result(property = "firstName", column = "first_name"),
@@ -35,7 +37,7 @@ public interface EmployeeMapper {
             @Result(property = "emergencyContactRelationship", column = "emergency_contact_relationship"),
             @Result(property = "jobLevelName", column = "job_level_name")
     })
-    public EmployeeEntity getEmployeeById(@Param("employee_id") Integer id);
+    public EmployeeEntity getEmployeeById(Integer id);
 
     @Select("select first_name,password_encoded,work_email from employee inner join psd_keep on employee.employee_id = psd_keep.employee_id where first_name = #{firstName}")
     @Results(id = "passwordMap", value = {
@@ -55,4 +57,8 @@ public interface EmployeeMapper {
 
     @Select("select count(email) from employee where work_email = #{email}")
     public Integer isEmailOccupied(LoginInfoBo loginInfoBo);
+
+    @Transactional(label = "setNewCompany")
+    @Update("update employee SET company = #{companyId} WHERE employee_id = #{employeeId}")
+    public Boolean setNewCompany(NewCompanyBo newCompanyBo);
 }

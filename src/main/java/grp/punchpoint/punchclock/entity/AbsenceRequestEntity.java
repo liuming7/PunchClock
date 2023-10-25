@@ -42,4 +42,6 @@ public class AbsenceRequestEntity {
     private Timestamp absenceEndTimestamp;
 
     private Boolean permissionStatus;
+
+    private Integer isDeleted;
 }

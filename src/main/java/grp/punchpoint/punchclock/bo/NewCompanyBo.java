@@ -675,58 +675,28 @@
  * <https://www.gnu.org/licenses/why-not-lgpl.html>.
  */
 
-package grp.punchpoint.punchclock.util;
+package grp.punchpoint.punchclock.bo;
 
-import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.JSONObject;
-
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * {@code @program:} PunchClock
  * <p>
- * {@code @description:} grp.punchpoint.punchclock.util.ReturnType
+ * {@code @description:} grp.punchpoint.punchclock.bo.NewCompanyBo
  * <p>
  * {@code @author:} Mengnan Wu
  * <p>
- * {@code @create:} 2023-10-24 02:09
+ * {@code @create:} 2023-10-24 17:17
  **/
-public class ReturnResult {
 
-    public static String fine(){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code",0);
-        return jsonObject.toJSONString();
-    }
+@Getter
+@Setter
+@ToString
+public class NewCompanyBo {
 
-    public static String fine(Object object){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code",0);
-        jsonObject.put("data",object);
-        return jsonObject.toJSONString();
-    }
+    private Integer companyId;
 
-    public static String fine(List<Object> objectList){
-        JSONObject jsonObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        for(Object object : objectList){
-            jsonArray.add(object);
-        }
-        jsonObject.put("code",0);
-        jsonObject.put("data",jsonArray);
-        return jsonObject.toJSONString();
-    }
-
-    public static String error(String reason){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code",1);
-        jsonObject.put("message",reason);
-        return jsonObject.toJSONString();
-    }
-
-    public static String error(){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code",1);
-        return jsonObject.toJSONString();
-    }
+    private Integer employeeId;
 }

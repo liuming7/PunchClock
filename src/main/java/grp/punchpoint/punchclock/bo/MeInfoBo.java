@@ -675,58 +675,79 @@
  * <https://www.gnu.org/licenses/why-not-lgpl.html>.
  */
 
-package grp.punchpoint.punchclock.util;
+package grp.punchpoint.punchclock.bo;
 
-import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.JSONObject;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.util.List;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 /**
  * {@code @program:} PunchClock
  * <p>
- * {@code @description:} grp.punchpoint.punchclock.util.ReturnType
+ * {@code @description:} grp.punchpoint.punchclock.bo.MeInfoBo
  * <p>
  * {@code @author:} Mengnan Wu
  * <p>
- * {@code @create:} 2023-10-24 02:09
+ * {@code @create:} 2023-10-24 17:27
  **/
-public class ReturnResult {
 
-    public static String fine(){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code",0);
-        return jsonObject.toJSONString();
-    }
+@Getter
+@Setter
+@ToString
+public class MeInfoBo {
 
-    public static String fine(Object object){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code",0);
-        jsonObject.put("data",object);
-        return jsonObject.toJSONString();
-    }
+    private Integer employeeId;
 
-    public static String fine(List<Object> objectList){
-        JSONObject jsonObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        for(Object object : objectList){
-            jsonArray.add(object);
-        }
-        jsonObject.put("code",0);
-        jsonObject.put("data",jsonArray);
-        return jsonObject.toJSONString();
-    }
+    private String firstName;
 
-    public static String error(String reason){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code",1);
-        jsonObject.put("message",reason);
-        return jsonObject.toJSONString();
-    }
+    private String middleName;
 
-    public static String error(){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code",1);
-        return jsonObject.toJSONString();
-    }
+    private String lastName;
+
+    private Integer pronouns;
+
+    private String workEmail;
+
+    private String workMobile;
+
+    private String jobTitle;
+
+    private Integer jobLevel;
+
+    private Integer reportTo;
+
+    private Integer company;
+
+    private String emergencyContactName;
+
+    private String emergencyContactEmail;
+
+    private String emergencyContactMobile;
+
+    private String emergencyContactRelationship;
+
+    private String jobLevelName;
+
+    private String companyName;
+
+    private Time workStartTime;
+
+    private Time workEndTime;
+
+    private Time workStartTimeException;
+
+    private Time workEndTimeException;
+
+    private Boolean isExceptionToday;
+
+    private Timestamp workStartTimestamp;
+
+    private Timestamp workEndTimestamp;
+
+    private Timestamp workStartTimestampException;
+
+    private Timestamp workEndTimestampException;
 }

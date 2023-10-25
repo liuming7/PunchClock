@@ -677,12 +677,19 @@
 
 package grp.punchpoint.punchclock.controller;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import grp.punchpoint.punchclock.bo.NewCompanyBo;
+import grp.punchpoint.punchclock.entity.CompanyEntity;
 import grp.punchpoint.punchclock.service.CompanyService;
+import grp.punchpoint.punchclock.util.ReturnResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * {@code @program:} PunchClock
@@ -701,16 +708,36 @@ public class CompanyController {
     @Autowired
     private CompanyService companyService;
 
-    @RequestMapping(value = "/getCompanyInfo", method = RequestMethod.POST)
+    @RequestMapping(value = "/getCompanyInfo", method = RequestMethod.GET)
     @ResponseBody
-    public void getCompanyInfo(){
-
+    public String getCompanyInfo(@RequestParam(name = "id") Integer companyId){
+        CompanyEntity companyEntity = companyService.getCompanyInfo(companyId);
+        return ReturnResult.fine(companyEntity);
     }
 
     @RequestMapping(value = "/startCompany", method = RequestMethod.POST)
     @ResponseBody
-    public void startCompany(){
+    public String startCompany(@RequestBody String companyInfo){
+        CompanyEntity companyEntity = new CompanyEntity();
+        NewCompanyBo newCompanyBo = new NewCompanyBo();
+        JSONObject jsonObject = JSON.parseObject(companyInfo);
+        companyEntity.setCompanyId(Long.valueOf(new Date().getTime()).intValue());
+        companyEntity.setCompanyName(jsonObject.getString("companyName"));
+        companyEntity.setIsExceptionToday(jsonObject.getBoolean("isExceptionToday"));
+        companyEntity.setWorkStartTime(Time.valueOf(jsonObject.getString("workStartTime")));
+        companyEntity.setWorkEndTime(Time.valueOf(jsonObject.getString("workEndTime")));
+        companyEntity.setWorkEndTimeException(Time.valueOf(jsonObject.getString("workEndTimeException")));
+        companyEntity.setWorkStartTimeException(Time.valueOf(jsonObject.getString("workStartTimeException")));
+        companyEntity.setWorkStartTimestamp(new Timestamp(companyEntity.getWorkStartTime().getTime()));
+        companyEntity.setWorkEndTimestamp(new Timestamp(companyEntity.getWorkEndTime().getTime()));
+        companyEntity.setWorkEndTimestampException(new Timestamp(companyEntity.getWorkEndTimeException().getTime()));
+        companyEntity.setWorkStartTimestampException(new Timestamp(companyEntity.getWorkStartTimeException().getTime()));
+        companyEntity.setIsDeleted(0);
 
+        newCompanyBo.setEmployeeId(jsonObject.getInteger("employeeId"));
+        newCompanyBo.setCompanyId(companyEntity.getCompanyId());
+
+        return companyService.setNewCompany(companyEntity,newCompanyBo) ? ReturnResult.fine() : ReturnResult.error("insert failed");
     }
 
     @RequestMapping(value = "/editCompany", method = RequestMethod.POST)

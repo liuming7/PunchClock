@@ -40,4 +40,6 @@ public class TaskEntity {
     private Timestamp taskStartTimestamp;
 
     private Timestamp taskEndTimestamp;
+
+    private Integer isDeleted;
 }

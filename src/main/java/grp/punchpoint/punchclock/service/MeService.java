@@ -17,8 +17,8 @@ public class MeService {
     @Autowired
     private EmployeeMapper employeeMapper;
 
-    public EmployeeEntity get(){
-        EmployeeEntity employeeEntity = employeeMapper.getEmployeeById(1);
+    public EmployeeEntity getEmployeeInfoById(Integer employeeId){
+        EmployeeEntity employeeEntity = employeeMapper.getEmployeeById(employeeId);
         return employeeEntity;
     }
 }

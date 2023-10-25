@@ -677,6 +677,11 @@
 
 package grp.punchpoint.punchclock.service;
 
+import grp.punchpoint.punchclock.bo.NewCompanyBo;
+import grp.punchpoint.punchclock.entity.CompanyEntity;
+import grp.punchpoint.punchclock.mapper.CompanyMapper;
+import grp.punchpoint.punchclock.mapper.EmployeeMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -691,4 +696,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CompanyService {
+
+    @Autowired
+    private CompanyMapper companyMapper;
+
+    @Autowired
+    private EmployeeMapper employeeMapper;
+
+    public CompanyEntity getCompanyInfo(Integer companyId){
+        CompanyEntity companyEntity = companyMapper.getCompanyInfoById(companyId);
+        return companyEntity;
+    }
+
+    public Boolean setNewCompany(CompanyEntity companyEntity,NewCompanyBo newCompanyBo){
+        employeeMapper.setNewCompany(newCompanyBo);
+        return companyMapper.setNewCompany(companyEntity);
+    }
 }
